@@ -1,7 +1,7 @@
 import React from 'react'
-import logo from '../assets/logo.svg'
-import home from '../assets/home.svg'
-import logout from '../assets/logout.svg'
+import logo from '../../assets/logo.svg'
+import home from '../../assets/home.svg'
+import logout from '../../assets/logout.svg'
 import { useNavigate } from 'react-router-dom'
 
 const Navbar_Dashboard = () => {

@@ -23,7 +23,7 @@ const App = () => {
           <Route index element={<AllPosts/>}/>
           <Route path='newposts' element={<NewPosts/>}/>
           <Route path='published' element={<Published/>}/>
-          <Route path='Drafts' element={<Drafts/>}/>
+          <Route path='drafts' element={<Drafts/>}/>
         </Route>
       </Routes>
     </div>
