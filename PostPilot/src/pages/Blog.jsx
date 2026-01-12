@@ -19,8 +19,8 @@ const Blog = ({ activeItem, setActiveItem }) => {
   return (
     <div>
       <Navbar activeItem={activeItem} setActiveItem={setActiveItem} />
-      <main className='max-w-4xl mx-auto p-8'>
-        <h1 className='text-3xl font-bold mb-4'>{data.title}</h1>
+      <main className='max-w-4xl mx-auto p-4 sm:p-6 md:p-8'>
+        <h1 className='text-2xl sm:text-3xl md:text-4xl font-bold mb-4'>{data.title}</h1>
         <div className='text-sm text-gray-500 mb-2 flex justify-between'>
           <span>{String(data.category)[0].toUpperCase() + String(data.category).slice(1)}</span>
           <span>Published on: {data.date}</span>

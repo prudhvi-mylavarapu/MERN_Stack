@@ -11,7 +11,7 @@ const formNewPost = () => {
     }
 
     return (
-        <div className='mx-60 my-10'>
+    <div className='mx-4 sm:mx-6 md:mx-12 lg:mx-20 xl:mx-60 my-10'>
             <form action="post" className='flex flex-col gap-6'>
                 <label className='flex flex-col border border-gray-300 p-5 rounded-2xl gap-3 shadow'>
                     Title *

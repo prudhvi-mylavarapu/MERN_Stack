@@ -9,8 +9,8 @@ const Navbar_Dashboard = () => {
     const navigate = useNavigate()
 
   return (
-    <nav className='mt-2 px-40 py-3 border-b shadow-gray-300 border-gray-300 sticky top-0 z-50 bg-white'>
-      <ul className='flex gap-10'>
+    <nav className='mt-2 px-4 sm:px-6 md:px-10 lg:px-20 xl:px-40 py-3 border-b shadow-gray-300 border-gray-300 sticky top-0 z-50 bg-white'>
+      <ul className='flex gap-4 sm:gap-6 md:gap-10 flex-wrap'>
         <li onClick={()=>{navigate(`/admin`)}} className='flex items-center gap-2'>
             <img className='w-7 cursor-pointer' src={logo} alt="logo" />
             <p className='text-2xl text-black/70'>Content Dashboard</p>
