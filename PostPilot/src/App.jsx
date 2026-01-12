@@ -19,9 +19,9 @@ const App = () => {
       <Routes>
         <Route path='/' element={<Home activeItem={activeItem} setActiveItem={setActiveItem}/>} />
         <Route path='/blog/:slug' element={<Blog activeItem={activeItem} setActiveItem={setActiveItem}/>} />
+        <Route path='/admin/newpost' element={<NewPosts/>} />
         <Route path='/admin' element={true ? <Dashboard/> : <AdminLogin/>}>
           <Route index element={<AllPosts/>}/>
-          <Route path='newposts' element={<NewPosts/>}/>
           <Route path='published' element={<Published/>}/>
           <Route path='drafts' element={<Drafts/>}/>
         </Route>

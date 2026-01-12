@@ -1,9 +1,12 @@
 import React from 'react'
+import NavbarNewPost from '../../components/admin/NavbarNewPost'
+import FormNewPost from '../../components/admin/formNewPost'
 
 const NewPosts = () => {
   return (
     <div>
-      Create New Post
+      <NavbarNewPost />
+      <FormNewPost />
     </div>
   )
 }

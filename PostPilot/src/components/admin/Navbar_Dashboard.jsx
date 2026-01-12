@@ -9,7 +9,7 @@ const Navbar_Dashboard = () => {
     const navigate = useNavigate()
 
   return (
-    <nav className='mt-2 px-40 py-3 border-b shadow-gray-300 border-gray-300'>
+    <nav className='mt-2 px-40 py-3 border-b shadow-gray-300 border-gray-300 sticky top-0 z-50 bg-white'>
       <ul className='flex gap-10'>
         <li onClick={()=>{navigate(`/admin`)}} className='flex items-center gap-2'>
             <img className='w-7 cursor-pointer' src={logo} alt="logo" />

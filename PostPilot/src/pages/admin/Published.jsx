@@ -1,9 +1,10 @@
 import React from 'react'
+import PostCard from '../../components/admin/PostCard'
 
 const Published = () => {
   return (
-    <div>
-      This is published page
+    <div className='mt-10 border border-gray-200 shadow rounded-xl'>
+      <PostCard />
     </div>
   )
 }

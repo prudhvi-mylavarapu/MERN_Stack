@@ -12,7 +12,7 @@ const Navbar = ({activeItem, setActiveItem}) => {
     }
 
     return (
-        <nav className='sticky top-0 p-4 bg-white z-50 shadow-sm'>
+        <nav className='sticky top-0 p-4 bg-white z-50 shadow-sm px-40'>
             <ul className='flex items-center gap-6 '>
                 <li onClick={() => navigate('/')} className='flex cursor-pointer'>
                     <img className='w-7 cursor-pointer' src={logo} alt="logo" />
