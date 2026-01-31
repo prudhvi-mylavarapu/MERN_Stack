@@ -53,11 +53,8 @@ const Blog = ({ activeItem, setActiveItem }) => {
         </div>
         <p className='text-sm text-gray-500 mb-6'>Written by: Chirs Brown</p>
         <img src={data.image} alt={data.title} className='w-full h-auto mb-6 rounded' />
-        <p>{data.description}</p>
-        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Error, velit ipsa? Sunt, repellat tempora excepturi blanditiis incidunt reprehenderit doloremque magnam nemo exercitationem maiores rem quos vel ratione eum numquam ipsam.</p>
-        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Error, velit ipsa? Sunt, repellat tempora excepturi blanditiis incidunt reprehenderit doloremque magnam nemo exercitationem maiores rem quos vel ratione eum numquam ipsam.</p>
-        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Error, velit ipsa? Sunt, repellat tempora excepturi blanditiis incidunt reprehenderit doloremque magnam nemo exercitationem maiores rem quos vel ratione eum numquam ipsam.</p>
-      </main>
+        <div dangerouslySetInnerHTML={{ __html: data.description }} />
+        </main>
       <Footer activeItem={activeItem} setActiveItem={setActiveItem}/>
     </div>
   )

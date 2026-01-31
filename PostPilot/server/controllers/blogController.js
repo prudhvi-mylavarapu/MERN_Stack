@@ -1,6 +1,7 @@
 import imagekit from "../configs/imageKit.js";
 import fs from "fs"
 import Blog from "../models/blog.js";
+import main from "../configs/gemini.js";
 
 
 export const addBlog = async (req, res)=> {
@@ -36,7 +37,7 @@ export const addBlog = async (req, res)=> {
 
         await Blog.create({title, summary, description, category, image, isPublished})
 
-        res.json({success: true, message: "Blog created successfully"})
+        return res.json({success: true, message: "Blog created successfully"})
 
     } catch (error) {
         res.json({success: false, message: error.message})
@@ -93,5 +94,24 @@ export const draftBlogs = async (req, res) => {
         res.json({ success: true, blogs });
     } catch (error) {
         res.json({ success: false, message: error.message });
+    }
+}
+
+export const publishedBlogs = async (req, res) => {
+    try {
+        const blogs = await Blog.find({ isPublished: true });
+        res.json({ success: true, blogs });
+    } catch (error) {
+        res.json({ success: false, message: error.message });
+    }
+}
+
+export const generateContent = async (req, res)=>{
+    try {
+        const {prompt} = req.body;
+        const content = await main(prompt + 'Generate a blog content for this topic in simple text format')
+        res.json({success: true, content})
+    } catch (error) {
+        res.json({success: false, message: error.message})
     }
 }

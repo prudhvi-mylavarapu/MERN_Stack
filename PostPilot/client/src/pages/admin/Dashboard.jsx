@@ -4,6 +4,8 @@ import CountCards from '../../components/admin/countCards'
 import FilterPosts from '../../components/admin/filterPosts'
 import { Outlet } from 'react-router-dom'
 import { card_data } from '../../assets/dashboardCardData'
+import { useAppContext } from '../../context/AppContext'
+import toast from 'react-hot-toast'
 
 const Dashboard = () => {
 
@@ -14,8 +16,15 @@ const Dashboard = () => {
     recentposts: []
   })
 
+  const { axios } = useAppContext()
+
   const fetchDashboard = async () => {
-    setDashboardData(card_data)
+    try {
+      const {data} = await axios.get('/api/admin/dashboard')
+      data.success ? setDashboardData(data.dashboardData) : toast.error(data.message)
+    } catch (error) {
+      toast.error(error.message)
+    }
   }
 
   useEffect(()=>{
@@ -33,7 +42,7 @@ const Dashboard = () => {
         <CountCards dashboardData={dashboardData} setDashboardData={setDashboardData}/>
         <div>
           <FilterPosts />
-          <Outlet />
+          <Outlet context={{ fetchDashboard }} />
         </div>
       </div>
     </>

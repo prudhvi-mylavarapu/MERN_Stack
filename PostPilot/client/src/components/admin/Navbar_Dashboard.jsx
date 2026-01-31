@@ -3,10 +3,19 @@ import logo from '../../assets/logo.svg'
 import home from '../../assets/home.svg'
 import logout from '../../assets/logout.svg'
 import { useNavigate } from 'react-router-dom'
+import { useAppContext } from '../../context/AppContext'
 
 const Navbar_Dashboard = () => {
 
     const navigate = useNavigate()
+    const { axios, setToken } = useAppContext();
+
+    const handleLogout = () => {
+        localStorage.removeItem('token');
+        axios.defaults.headers.common['Authorization'] = null;
+        setToken(null)
+        navigate('/')
+    }
 
   return (
     <nav className='mt-2 px-4 sm:px-6 md:px-10 lg:px-20 xl:px-40 py-3 border-b shadow-gray-300 border-gray-300 sticky top-0 z-50 bg-white'>
@@ -19,7 +28,7 @@ const Navbar_Dashboard = () => {
             <img className='w-5 ' src={home} alt="home" />
             <p className='text-black/70'>View Site</p>
         </li>
-        <li onClick={()=>{navigate(`/`)}} className='flex items-center gap-1.5 cursor-pointer'>
+        <li onClick={handleLogout} className='flex items-center gap-1.5 cursor-pointer'>
             <img className='w-5 ' src={logout} alt="logout" />
             <p className='text-black/70'>Logout</p>
         </li>

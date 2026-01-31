@@ -1,10 +1,10 @@
 import React from 'react'
-import PostCard from '../../components/admin/PostCard'
+import PublishedBlogs from '../../components/admin/publishedBlogs'
 
 const Published = () => {
   return (
     <div className='mt-10 border border-gray-200 shadow rounded-xl'>
-      <PostCard />
+      <PublishedBlogs />
     </div>
   )
 }

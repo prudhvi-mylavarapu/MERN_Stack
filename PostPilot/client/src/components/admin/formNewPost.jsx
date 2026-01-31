@@ -3,10 +3,12 @@ import { useNavigate } from 'react-router-dom'
 import { useAppContext } from '../../context/AppContext'
 import Quill from 'quill'
 import toast from 'react-hot-toast'
+import {parse} from 'marked'
 
 const formNewPost = () => {
     const {axios} = useAppContext()
     const [isAdding, setIsAdding] = useState(false)
+    const [loading, setLoading] = useState(false)
 
     const editorRef = useRef(null)
     const quillRef = useRef(null)
@@ -20,31 +22,60 @@ const formNewPost = () => {
     const [file, setFile] = useState(null);
 
     const onSubmitHandler = async (e) => {
-        try {
-            e.preventDefault();
-            setIsAdding(true);
-            const formData = new FormData();
-            formData.append('image', file); // file must be the File object
-            formData.append('blog', JSON.stringify({
-                title,
-                summary,
-                description: quillRef.current ? quillRef.current.root.innerHTML : '',
-                category,
-                isPublished
-            }));
-            await axios.post('/api/blog/add', formData, {
-                headers: { 'Content-Type': 'multipart/form-data' }
-            });
-            // ...handle success (e.g., redirect, clear form, etc.)
-        } catch (error) {
-            // ...handle error
-        } finally {
-            setIsAdding(false);
+      try {
+        const formData = new FormData();
+        formData.append('image', file); // file must be the File object
+        formData.append('blog', JSON.stringify({
+          title,
+          summary,
+          description: quillRef.current ? quillRef.current.root.innerHTML : '',
+          category,
+          isPublished
+        }));
+        const { data } = await axios.post('/api/blog/add', formData, {
+          headers: { 'Content-Type': 'multipart/form-data' }
+        });
+        if (data.success) {
+          toast.success(data.message || 'Blog created successfully');
+          // Optionally clear form or redirect
+          setTitle('');
+          setSummary('');
+          setcategory('Startup');
+          setIsPublished(false);
+          setImageUrl('');
+          setFilePreview('');
+          setFile(null);
+          if (quillRef.current) quillRef.current.root.innerHTML = '';
+          // navigate('/admin'); // Uncomment to redirect after creation
+        } else {
+          toast.error(data.message || 'Failed to create blog');
         }
+      } catch (error) {
+        toast.error(error.message || 'Error creating blog');
+      } finally {
+        setIsAdding(false);
+      }
     }
 
-    const generateContent = async ()=>{
-
+    const generateContent = async () => {
+      setLoading(true);
+      if (!title) {
+        toast.error('Please enter a title');
+        setLoading(false);
+        return;
+      }
+      try {
+        const { data } = await axios.post('/api/blog/generate', { prompt: title });
+        if (data.success) {
+          quillRef.current.root.innerHTML = parse(data.content);
+        } else {
+          toast.error(data.message);
+        }
+      } catch (error) {
+        toast.error(error.message);
+      } finally {
+        setLoading(false);
+      }
     }
 
     const navigate = useNavigate()
@@ -116,17 +147,25 @@ const formNewPost = () => {
                         value={summary}
                         required />
                 </label>
-                <label className='flex flex-col border border-gray-300 p-5 rounded-2xl gap-3 shadow'>
-                    <div className='flex items-center'>
-                        <p>Content *</p>
-                        <button onClick={generateContent} type='button' className='border-none bg-blue-500 text-white p-3 px-5 rounded-2xl cursor-pointer ml-auto'>Generate with AI</button>
+                <label className='flex flex-col border border-gray-300 p-5 rounded-2xl gap-2 shadow relative'>
+                  <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-0 mb-2">
+                    <span className="text-base font-medium text-gray-700">Content <span className="text-red-500">*</span></span>
+                  </div>
+                  
+                  <div ref={editorRef} className='h-[400px] border border-gray-200 focus:border-blue-500 focus:border-2 outline-none rounded-xl p-3 shadow bg-white' />
+                  <button
+                    disabled={loading}
+                    onClick={generateContent}
+                    type='button'
+                    className={`self-end mb-4 border-none bg-linear-to-r from-blue-500 to-blue-700 text-white py-2 px-5 rounded-xl cursor-pointer transition-all duration-200 hover:from-blue-600 hover:to-blue-800 disabled:opacity-60 disabled:cursor-not-allowed`}>
+                    {loading ? 'Generating...' : 'Generate with AI'}
+                  </button>
+                  {loading && (
+                    <div className='absolute inset-0 flex items-center justify-center bg-black/10 mt-2 z-10'>
+                        <div className='w-8 h-8 rounded-full border-2 border-t-white animate-spin'></div>
                     </div>
+                  )}
 
-                    <textarea ref={editorRef} className='h-100 border border-gray-300 focus:border-blue-500 focus:border-2 outline-none rounded-xl p-3 shadow'
-                        type="text"
-                        name='title'
-                        placeholder='Write your post content here'
-                        required />
                 </label>
                 <div className='flex gap-4'>
                     <label className='flex flex-col border border-gray-300 p-5 rounded-2xl gap-3 shadow w-1/2'>
