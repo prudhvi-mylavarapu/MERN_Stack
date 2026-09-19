@@ -1,13 +1,22 @@
-import { GoogleGenAI } from "@google/genai";
+import OpenAI from 'openai';
 
-const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY,
+});
 
 async function main(prompt) {
-  const response = await ai.models.generateContent({
-    model: "gemini-3-flash-preview",
-    contents: prompt,
+  const response = await openai.chat.completions.create({
+    model: 'gpt-4o-mini',
+    messages: [
+      {
+        role: 'user',
+        content: `${prompt} Generate a blog content for this topic in simple text format.`
+      }
+    ],
+    temperature: 0.7,
   });
-  return response.text
+
+  return response.choices[0].message.content;
 }
 
 export default main;

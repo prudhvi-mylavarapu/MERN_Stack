@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { posts } from '../assets/posts'
+import toast from 'react-hot-toast'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import { useAppContext } from '../context/AppContext'
@@ -14,10 +14,14 @@ const Blog = ({ activeItem, setActiveItem }) => {
   const fetchBlogData = async ()=>{
       try {
         const {data} = await axios.get(`/api/blog/${blogId}`)
-        data.success ? setData(data.blog) : toast.error(data.message)
-        console.log(data)
+        if (data.success) {
+          setData(data.blog)
+        } else {
+          toast.error(data.message || 'Failed to load blog')
+        }
       } catch (error) {
-        toast.error(error.message)
+        const message = error.response?.data?.message || error.message || 'Something went wrong'
+        toast.error(message)
       }
   }
 

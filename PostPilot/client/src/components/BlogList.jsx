@@ -1,5 +1,4 @@
 import React from 'react'
-import { posts } from '../assets/posts'
 import BlogCard from './BlogCard'
 import { useAppContext } from '../context/AppContext'
 
